@@ -18,7 +18,69 @@ import { Observer } from 'mobx-react';
 var emoji1 = require('../../assests/image/heaty.png');
 
 
-const FirstRoute = (props) => <View/>
+const FirstRoute = (props) => {
+    // ADD QUEUE
+    const [link, setLink] = React.useState("i96UO8-GFvw")
+    return (
+        <ScrollView style={{ backgroundColor: "#f4f4f4", flex: 1 }}>
+            <Observer>
+                {() => {
+                    return (
+                        <View>
+                            {ChatsStore.role == "Host" || ChatsStore.role == "SuperAdmin" ? <View style={{ padding: 10, backgroundColor: "#fff", alignItems: "center", borderBottomColor: "#8f8f8f", borderBottomWidth: 1, flex: 1, flexDirection: "row" }}>
+                                <TextInput
+                                    onChangeText={res => {
+                                        setLink(res)
+                                    }}
+                                    value={link} placeholder={"Video Link"} style={{ flex: 1 }} />
+                                <TouchableOpacity
+                                    style={{ borderRadius: 5, borderColor: "#252525", borderWidth: 1, }}
+                                    onPress={() => {
+                                        if (link != "") {
+                                            Axios.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + link + "&key=AIzaSyCm7cvQdOwCnslbRqECA015md9Pj_n4ZnM").then(yData => {
+                                                var snippet = yData.data.items[0].snippet
+                                                var temp = ChatsStore.queueData
+                                                console.log(temp.length)
+                                                temp = [
+                                                    ...temp,
+                                                    {
+                                                        videoUrl: link,
+                                                        title: snippet.title,
+                                                        image: snippet.thumbnails.default.url,
+                                                        channelId: snippet.channelTitle
+                                                    }
+                                                ]
+                                                console.log(temp.length)
+
+                                                Axios.post(baseUrl + "/api/room/addVideo", {
+                                                    roomName: ChatsStore.videoData.roomName,
+                                                    videoQueue: temp
+                                                }).then(res => {
+                                                    console.log("done")
+                                                })
+
+                                            })
+
+
+                                        }
+                                    }}
+                                ><Text style={{ textAlign: "center" }}>Add Video</Text></TouchableOpacity>
+                            </View> : null}
+                            <FlatList
+                                data={ChatsStore.queueData}
+                                renderItem={({ item }) => (<View style={{ padding: 10 }}>
+                                    <Text>{item.title}</Text>
+                                </View>)}
+                                keyExtractor={(item) => (item + "")}
+                            />
+                        </View>
+                    )
+                }}
+            </Observer>
+
+        </ScrollView >
+    )
+};
 
 const SecondRoute = (props) => {
     // CHAT SCREEN
@@ -131,6 +193,7 @@ const ViewerRoute = (props) => {
         ChatsStore.users = res
     })
     useEffect(() => {
+        console.log("eknejdn")
         console.log(ChatsStore.users)
     })
 
@@ -164,6 +227,8 @@ const ViewerRoute = (props) => {
     )
 }
 
+const ExtraRoute = (props) => (<Text>Working</Text>)
+
 const initialLayout = { width: Dimensions.get('window').width };
 
 
@@ -194,7 +259,7 @@ export default Stream = (props) => {
         second: SecondRoute,
         third: ThirdRoute,
         fourth: ViewerRoute,
-        fifth: ThirdRoute
+        fifth: ExtraRoute
     });
 
     // Remove user 
@@ -284,8 +349,8 @@ export default Stream = (props) => {
             this.socket.on("updateVideo", res => {
                 refVideo.current.getCurrentTime().then(videoTime => {
                     if (res.status == "playing") {
-                        if (!((videoTime > res.currentTime - 4) && (videoTime < res.currentTime + 4))) {
-                            var tem = parseInt(res.currentTime) + 2;
+                        if (!((videoTime > res.currentTime - 2) && (videoTime < res.currentTime + 2))) {
+                            var tem = parseInt(res.currentTime) + 1;
                             console.log("update " + tem)
                             refVideo.current.seekTo(tem)
                         }
