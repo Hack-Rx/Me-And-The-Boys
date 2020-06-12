@@ -1,0 +1,9 @@
+{
+  "name": "insta_scrapper",
+  "description": "insta scrapper: dp,name,bio etc from user_name",
+  "keywords": [
+    "flask",
+    "python",
+    "instagram"
+  ]
+}
