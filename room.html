@@ -46,6 +46,7 @@
 		}
 
 		function changevidsrc(){
+			fdb.ref('rooms/'+param+'/videoId').set($('#vidsrc').val());
 			player.source = {
 			  type: 'video',
 			  sources: [
@@ -76,6 +77,7 @@
 		video.on('value', function(snapshot) {
 			let {currentTime,videoId,isPlaying} = snapshot.val();
 			let vsrc = player.source;
+			console.log(vsrc);
 			if (videoId == 'none' || vsrc.includes(videoId)	) {
 				if (isPlaying  && player.playing) {
 					if (player.currentTime>currentTime+4 || player.currentTime<currentTime-4) {
