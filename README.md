@@ -43,25 +43,25 @@ Protected Rooms:
 <br/>
 Chat
 <br/>
-<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/chat.jpg" width="250" height="500" />
+<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/chat.jpg" width="500" height="500" />
 <br/>
 <br/>
 Translation in Chat
 <br/>
-<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/translate.jpg" width="250" height="500" />
+<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/translate.jpg" width="500" height="500" />
 <br/>
 <br/>
 Change Host or user
 <br/>
-<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/host.jpg" width="250" height="500" />
+<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/host.jpg" width="500" height="500" />
 <br/>
 <br/>
 Add Queue
 <br/>
-<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/queue.jpg" width="250" height="500" />
+<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/queue.jpg" width="500" height="500" />
 <br/>
 <br/>
 Send emojies or stickers
 <br/>
-<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/emoji.jpg" width="250" height="500" />
+<img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/emoji.jpg" width="500" height="500" />
 
