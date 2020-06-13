@@ -9,7 +9,7 @@ api = Api(app)
 
 class Translate(Resource):
     def get(self, word, n):
-        return jsons.dumps(translate.translate(word,n))
+        return str(translate.translate(word,n))
 
 api.add_resource(Translate, '/translate/<word>/<n>')
 
