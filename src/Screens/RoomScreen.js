@@ -28,6 +28,10 @@ export default RoomScreen = (props) => {
                 Axios.post(baseUrl + "/api/room/findRoom", {
                     roomName: url.split("/")[url.split("/").length - 1]
                 }).then(res => {
+                    if (res.data == "" || res.data == null || res.data == []) {
+                        ToastAndroid.show("Wrong Room Name", ToastAndroid.LONG)
+                        return
+                    }
                     ChatsStore.listItem = res.data[0];
                     ChatsStore.password = res.data[0].password
                     if (ChatsStore.password == "") {
@@ -80,33 +84,38 @@ export default RoomScreen = (props) => {
                 <TouchableOpacity
                     onPress={() => {
                         if (ChatsStore.password == password) {
-                            getData(user).then(username => {
-                                var tempUser = ChatsStore.listItem.users;
-                                console.log(tempUser)
-                                var userArray = []
-                                tempUser.forEach(user => {
-                                    userArray = [
-                                        ...userArray,
-                                        user["name"]
-                                    ]
-                                })
-                                if (userArray.includes(username)) {
-                                    setDialog(false)
-                                    props.navigation.navigate("Stream", { data: ChatsStore.listItem })
-                                } else {
-                                    tempUser = [
-                                        ...tempUser,
-                                        { name: username, role: "User" }
-                                    ]
-                                    Axios.post(baseUrl + "/api/room/addUser", {
-                                        roomName: ChatsStore.listItem.roomName,
-                                        users: tempUser
-                                    }).then(() => {
-                                        setDialog(false)
-                                        props.navigation.navigate("Stream", { data: ChatsStore.listItem })
-                                    })
-                                }
-                            })
+                            // getData(user).then(username => {
+                            //     var tempUser = ChatsStore.listItem.users;
+                            //     console.log(tempUser)
+                            //     var userArray = []
+                            //     tempUser.forEach(user => {
+                            //         userArray = [
+                            //             ...userArray,
+                            //             user["name"]
+                            //         ]
+                            //     })
+                            //     if (userArray.includes(username)) {
+                            //         setDialog(false)
+                            //         props.navigation.navigate("Description", { data: ChatsStore.listItem })
+                            //     } else {
+                            //         tempUser = [
+                            //             ...tempUser,
+                            //             { name: username, role: "User" }
+                            //         ]
+                            //         Axios.post(baseUrl + "/api/room/addUser", {
+                            //             roomName: ChatsStore.listItem.roomName,
+                            //             users: tempUser
+                            //         }).then(() => {
+                            //             setDialog(false)
+                            //             props.navigation.navigate("Description", { data: ChatsStore.listItem })
+
+                            //         })
+                            //     }
+                            // })
+
+                            setDialog(false)
+                            props.navigation.navigate("Description", { data: ChatsStore.listItem })
+
                         } else {
                             ToastAndroid.show("Wrong Password", ToastAndroid.LONG);
                         }
@@ -137,31 +146,9 @@ export default RoomScreen = (props) => {
                             renderItem={({ item }) => (
                                 <TouchableOpacity
                                     onPress={() => {
+
                                         if (item.password == "") {
-                                            getData(user).then(username => {
-                                                var tempUser = item.users;
-                                                var userArray = []
-                                                tempUser.forEach(user => {
-                                                    userArray = [
-                                                        ...userArray,
-                                                        user["name"]
-                                                    ]
-                                                })
-                                                if (userArray.includes(username)) {
-                                                    props.navigation.navigate("Stream", { data: item })
-                                                } else {
-                                                    tempUser = [
-                                                        ...tempUser,
-                                                        { name: username, role: "User" }
-                                                    ]
-                                                    Axios.post(baseUrl + "/api/room/addUser", {
-                                                        roomName: item.roomName,
-                                                        users: tempUser
-                                                    }).then(() => {
-                                                        props.navigation.navigate("Stream", { data: item })
-                                                    })
-                                                }
-                                            })
+                                            props.navigation.navigate("Description", { data: item })
                                         } else {
                                             ChatsStore.password = item.password
                                             ChatsStore.listItem = item;
