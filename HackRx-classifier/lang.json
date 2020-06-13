@@ -1,0 +1,154 @@
+{
+    "bus":{
+        "English": "Where is the bus stop?",
+        "Russian": "Где автобусная остановка?",
+        "Portugese": "Onde é o ponto de ônibus?",
+        "Spanish": "¿Dónde esta la parada de autobus?",
+        "German": "Wo ist die Bushaltestelle?",
+        "French": "Où est l'arrêt de bus?",   
+        "Arabic": "أين هي محطة للحافلات؟",
+        "Hindi": "बस स्टॉप कहा है?"
+    },
+    "chennai":{
+        "English": "I come from Chennai.",
+        "Russian": "Я родом из Ченнаи.",
+        "Portugese": "Eu venho de Chennai.",
+        "Spanish": "Yo vengo de Chennai.",
+        "German": "Ich komme aus Chennai.",
+        "French": "Je viens de Chennai.",   
+        "Arabic": "لقد جئت من تشيناي.",
+        "Hindi": "मैं चेन्नई से आता हूं।"
+    },
+ "day":{
+        "English": "What is the charge per day?",
+        "Russian": "Сколько будет стоить за день?",
+        "Portugese": "Qual é o custo por dia?",
+        "Spanish": "¿Cuál es el precio por día?",
+        "German": "Was ist die Gebühr pro Tag?",
+        "French": "Quel est le prix par jour?",   
+        "Arabic": "ما هي تكلفة اليوم الواحد؟",
+        "Hindi": "प्रतिदिन कितना किराया है?"
+    },
+ "english":{
+        "English": "Can you speak English?",
+        "Russian": "Вы говорите по-английски?",
+        "Portugese": "Você pode falar em Inglês?",
+        "Spanish": "¿Puedes hablar ingles?",
+        "German": "Sprechen Sie Englisch?",
+        "French": "Pouvez-vous parler anglais?",   
+        "Arabic": "يمكنك تكلم الإنجليزية؟",
+        "Hindi": "क्या आप अंग्रेजी बोल सकते हैं?"
+    },
+ "goa":{
+        "English": "I love Goa.",
+        "Russian": "Я люблю Гоа",
+        "Portugese": "Eu amo goa",
+        "Spanish": "Amo a goa",
+        "German": "Ich liebe Goa",
+        "French": "J'aime goa",   
+        "Arabic": "أنا أحب جوا",
+        "Hindi": "मुझे गोवा से प्यार है"
+    },
+ "goes":{
+        "English": "Which bus goes to Madagao?",
+        "Russian": "Какой автобус идет в Мадагао?",
+        "Portugese": "Qual ônibus vai para Madagao?",
+        "Spanish": "¿Qué autobús va a Madagao?",
+        "German": "Welcher Bus fährt nach Madagao?",
+        "French": "Quel bus va à Madagao?",   
+        "Arabic": "أي حافلة تذهب إلى مدغاو؟",
+        "Hindi": "कौन सी बस मैदागाओ जाती है?"
+    },
+ "hungry":{
+        "English": "I am hungry.",
+        "Russian": "Я голоден.",
+        "Portugese": "Eu estou com fome.",
+        "Spanish": "Estoy hambriento.",
+        "German": "Ich habe Hunger.",
+        "French": "J'ai faim.",   
+        "Arabic": "أنا جائع.",
+        "Hindi": "मैं भूखा हूँ।"
+    },
+ "you":{
+        "English": "I love you.",
+        "Russian": "Я люблю тебя.",
+        "Portugese": "Eu te amo.",
+        "Spanish": "te quiero.",
+        "German": "Ich liebe dich.",
+        "French": "Je t'aime.",   
+        "Arabic": "أحبك.",
+        "Hindi": "मैं तुमसे प्यार करता हूँ।"
+    },
+    "thirsty":{
+        "English": "I feel thirsty",
+        "Russian": "я хочу пить",
+        "Portugese": "Estou com sede",
+        "Spanish": "Tengo sed",
+        "German": "Ich habe Durst",
+        "French": "J'ai soif",   
+        "Arabic": "اشعر بالعطش",
+        "Hindi": "मैं प्यास लग रही है"
+    },
+    "taxi":{
+        "English": "Can you get me a taxi?",
+        "Russian": "Ты можешь взять мне такси?",
+        "Portugese": "Você pode me pegar um táxi?",
+        "Spanish": "Você pode me pegar um táxi?",
+        "German": "Können Sie mir ein Taxi bringen?",
+        "French": "Pouvez-vous me prendre un taxi?",   
+        "Arabic": "هل يمكنك الحصول على سيارة أجرة؟",
+        "Hindi": "क्या आप मुझे टैक्सी दिलवा सकते हैं?"
+    },
+    "sick":{
+        "English": "I feel sick",
+        "Russian": "Я болею.",
+        "Portugese": "Estou doente",
+        "Spanish": "Me siento enfermo",
+        "German": "Mir ist schlecht",
+        "French": "Je me sens malade",   
+        "Arabic": "أشعر بالمرض",
+        "Hindi": "में बिमार हूँ।"
+    },
+    "rent":{
+        "English": "Do you have a room or house that you could give on rent?",
+        "Russian": "у вас есть комната или дом, который вы могли бы сдать в аренду?",
+        "Portugese": "Você tem um quarto ou casa que você poderia dar de aluguel?",
+        "Spanish": "¿Tiene una habitación o casa que podría dar en alquiler?",
+        "German": "Haben Sie ein Zimmer oder Haus, das Sie vermieten könnten?",
+        "French": "Avez-vous une chambre ou une maison que vous pourriez donner en location?",   
+        "Arabic": "هل لديك غرفة أو منزل يمكن أن تقدمه في الإيجار؟",
+        "Hindi": "क्या आपके पास एक कमरा या घर है जिसे आप किराए पर दे सकते हैं?"
+    },
+    "room":{
+        "English": "I want a room for a day",
+        "Russian": "я хочу комнату на день",
+        "Portugese": "Eu quero um quarto por um dia",
+        "Spanish": "Quiero una habitación por un día",
+        "German": "Ich möchte ein Zimmer für einen Tag",
+        "French": "Je veux une chambre pour une journée",   
+        "Arabic": "أريد غرفة ليوم واحد",
+        "Hindi": "मुझे एक दिन के लिए एक कमरा चाहिए।"
+    },
+    "name":{
+        "English": "My name is VIkas",
+        "Russian": "Меня зовут викас",
+        "Portugese": "Meu nome é VIkas",
+        "Spanish": "Mi nombre es vkas",
+        "German": "Ich heiße Vikas",
+        "French": "Je m'appelle Vikas",   
+        "Arabic": "اسمي فيكاس",
+        "Hindi": "मेरा नाम विकास हे।"
+    },
+    "spicy":{
+        "English": "I do not want it spicy",
+        "Russian": "Я не хочу, чтобы это острое",
+        "Portugese": "Eu não quero picante",
+        "Spanish": "No lo quiero picante",
+        "German": "Ich will es nicht scharf",
+        "French": "Je ne veux pas qu'il soit épicé",   
+        "Arabic": "أنا لا أريدها حار",
+        "Hindi": "मुझे यह मसालेदार नहीं चाहिए।"
+    }
+
+
+}
