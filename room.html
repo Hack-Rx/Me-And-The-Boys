@@ -81,7 +81,7 @@
 			if (videoId == 'none' || vsrc.includes(videoId)	) {
 				if (isPlaying  && player.playing) {
 					if (player.currentTime>currentTime+4 || player.currentTime<currentTime-4) {
-						player.currentTime = currentTime;
+						player.currentTime = currentTime + 1;
 					}
 				}
 			}
