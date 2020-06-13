@@ -2,62 +2,54 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Sync Vids</title>
-	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+	<title>Home</title>
+	<style type="text/css">
+		#rooms{
+			border: 1px solid black;
+			min-height: 444px;
+		}
+	</style>
 </head>
 <body>
-	<div class="plyr__video-embed" id="player">
-	  <iframe
-	    src="https://www.youtube.com/embed/bTqVqk7FSmY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-	    allowfullscreen
-	    allowtransparency
-	    allow="autoplay">
-	  </iframe>
-	</div>
-	<button onclick="add(.1)">add</button>
-	
+	<div id="myid"></div>
+	<div id="rooms"></div>
+	<button onclick="createRoom()">Create Your Own Room</button>
 
 
-
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-database.js"></script>
 	<script src="fireconfig.js"></script>
 	<script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
 	<script type="text/javascript">
-		const id =  Math.floor((Math.random() * 9999999) + 1); 
-		const player = new Plyr('#player');
-		var database = firebase.database();
-		var isMaster = false;
-		var fdb = firebase.database();
-		fdb.ref('/master').once('value').then(function(snapshot) {
-  		var master = snapshot.val();
-  		if (master == 'unset') {
-  			isMaster = true;
-				fdb.ref('/master').set(id);
-  		}
-  	});
+		var id  =  localStorage.getItem("theid");
+		if (!id) {
+			id = Math.floor((Math.random() * 9999999) + 1);		
+    	localStorage.setItem("theid", id);
+		}
+		$('#myid').append('<h3>Your User ID is : '+localStorage.getItem("theid")+'</h3>');
 
-  	var video = firebase.database().ref('video');
-		video.on('value', function(snapshot) {
-			let {curr,id,playing} = snapshot.val();
-			if (playing == true && player.playing) {
-				console.log('here');
-				if (player.currentTime>curr+4 || player.currentTime<curr-4) {
-					player.currentTime = curr;
-				}
-			}	
+		const fdb = firebase.database();
+
+    function createRoom(){
+			fdb.ref('rooms/'+id).set({
+				currentTime : 0,
+				videoId : "none",
+				isPlaying : false
+			});
+    }
+
+    fdb.ref('rooms/').on('value', function(snapshot) {
+    	var allrooms = snapshot.val();
+    	let rnames = Object.keys(allrooms);
+    	$('#rooms').empty();
+    	rnames.forEach(name=>{
+    		$('#rooms').append(`<a href='room.html?q=${name}'>Room No ${name}</a><br>`)
+    	});
 		});
-		setInterval(function(){ 
-			if (isMaster && player.playing) {
-				fdb.ref('/video/playing').set(true);
-				fdb.ref('/video/curr').set(player.currentTime);
-			}
-
-		}, 4000);
+		
 // 0 2 @ * () % ^ & $ # ! 		
 //file:///C:/Users/Rishabh/Documents/firesync/index.html
 	</script>
-
 </body>
 </html>
