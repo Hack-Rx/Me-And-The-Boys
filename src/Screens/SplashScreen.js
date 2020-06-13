@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getData, storeData } from '../Store/Storage'
 import { user, baseUrl } from '../Store/Keys';
 import Stream from './Stream';
@@ -11,6 +12,7 @@ import YoutubeAddScreen from './YoutubeAddScreen';
 import QueueScreen from './QueueScreen';
 
 const Stack = createStackNavigator();
+const Bottom = createBottomTabNavigator();
 export default SplashScren = () => {
 
     const [isUser, setIsUser] = useState(false);
@@ -69,13 +71,21 @@ export default SplashScren = () => {
     }
 
 
+    BottomTabFunc = () => {
+        return <Bottom.Navigator
+        >
+            <Bottom.Screen component={RoomScreen} name="RoomScreen" options={{ title: "Create Room" }} />
+            <Bottom.Screen component={YoutubeAddScreen} name="YoutubeLink" options={{ title: "Create Room" }} />
+            <Bottom.Screen component={Stream} name="History" options={{ headerShown: false }} />
+            <Bottom.Screen component={QueueScreen} name="Profile" options={{ headerShown: true }} />
+        </Bottom.Navigator>
+    }
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                {isLoading ? <Stack.Screen component={LoadingScreen} name="Splash" options={{ headerShown: false }} /> : isUser ? <Stack.Screen component={RoomScreen} name="Rooms" options={{ title: "Rooms" }} /> : <Stack.Screen component={CreateAccountScreen} name="CreateAccount" />}
-                <Stack.Screen component={YoutubeAddScreen} name="YoutubeLink" options={{ title: "Create Room" }} />
+                {isLoading ? <Stack.Screen component={LoadingScreen} name="Splash" options={{ headerShown: false }} /> : isUser ? <Stack.Screen component={BottomTabFunc} name="Rooms" options={{ title: "Rooms" }} /> : <Stack.Screen component={CreateAccountScreen} name="CreateAccount" />}
                 <Stack.Screen component={Stream} name="Stream" options={{ headerShown: false }} />
-                <Stack.Screen component={QueueScreen} name="Queue Data" options={{ headerShown: true }} />
             </Stack.Navigator>
         </NavigationContainer >
     )

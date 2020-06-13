@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import { storeData, getData } from '../Store/Storage';
 import { name, user, baseUrl, flaskUrl } from '../Store/Keys';
 import AntIcon from 'react-native-vector-icons/AntDesign'
+import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Axios from 'axios';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import ChatsStore from '../mobx/ChatsStore'
@@ -27,45 +28,51 @@ const FirstRoute = (props) => {
                 {() => {
                     return (
                         <View>
-                            {ChatsStore.role == "Host" || ChatsStore.role == "SuperAdmin" ? <View style={{ padding: 10, backgroundColor: "#fff", alignItems: "center", borderBottomColor: "#8f8f8f", borderBottomWidth: 1, flex: 1, flexDirection: "row" }}>
-                                <TextInput
-                                    onChangeText={res => {
-                                        setLink(res)
-                                    }}
-                                    value={link} placeholder={"Video Link"} style={{ flex: 1 }} />
-                                <TouchableOpacity
-                                    style={{ borderRadius: 5, borderColor: "#252525", borderWidth: 1, }}
-                                    onPress={() => {
-                                        if (link != "") {
-                                            Axios.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + link + "&key=AIzaSyCm7cvQdOwCnslbRqECA015md9Pj_n4ZnM").then(yData => {
-                                                var snippet = yData.data.items[0].snippet
-                                                var temp = ChatsStore.queueData
-                                                console.log(temp.length)
-                                                temp = [
-                                                    ...temp,
-                                                    {
-                                                        videoUrl: link,
-                                                        title: snippet.title,
-                                                        image: snippet.thumbnails.default.url,
-                                                        channelId: snippet.channelTitle
+                            <Observer>
+                                {
+                                    () => (
+                                        ChatsStore.role == "Host" || ChatsStore.role == "SuperAdmin" ? <View style={{ padding: 10, backgroundColor: "#fff", alignItems: "center", borderBottomColor: "#8f8f8f", borderBottomWidth: 1, flex: 1, flexDirection: "row" }}>
+                                            <TextInput
+                                                onChangeText={res => {
+                                                    setLink(res)
+                                                }}
+                                                value={link} placeholder={"Video Link"} style={{ flex: 1 }} />
+                                            <TouchableOpacity
+                                                style={{ borderRadius: 5, borderColor: "#252525", borderWidth: 1, }}
+                                                onPress={() => {
+                                                    if (link != "") {
+                                                        Axios.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + link + "&key=AIzaSyCm7cvQdOwCnslbRqECA015md9Pj_n4ZnM").then(yData => {
+                                                            var snippet = yData.data.items[0].snippet
+                                                            var temp = ChatsStore.queueData
+                                                            console.log(temp.length)
+                                                            temp = [
+                                                                ...temp,
+                                                                {
+                                                                    videoUrl: link,
+                                                                    title: snippet.title,
+                                                                    image: snippet.thumbnails.default.url,
+                                                                    channelId: snippet.channelTitle
+                                                                }
+                                                            ]
+                                                            console.log(temp.length)
+
+                                                            Axios.post(baseUrl + "/api/room/addVideo", {
+                                                                roomName: ChatsStore.videoData.roomName,
+                                                                videoQueue: temp
+                                                            }).then(res => {
+                                                                console.log("done")
+                                                            })
+
+                                                        })
+
+
                                                     }
-                                                ]
-                                                console.log(temp.length)
-
-                                                Axios.post(baseUrl + "/api/room/addVideo", {
-                                                    roomName: ChatsStore.videoData.roomName,
-                                                    videoQueue: temp
-                                                }).then(res => {
-                                                    console.log("done")
-                                                })
-
-                                            })
-
-
-                                        }
-                                    }}
-                                ><Text style={{ textAlign: "center" }}>Add Video</Text></TouchableOpacity>
-                            </View> : null}
+                                                }}
+                                            ><Text style={{ textAlign: "center" }}>Add Video</Text></TouchableOpacity>
+                                        </View> : null
+                                    )
+                                }
+                            </Observer>
                             <FlatList
                                 data={ChatsStore.queueData}
                                 renderItem={({ item }) => (<View style={{ padding: 10 }}>
@@ -110,6 +117,30 @@ const SecondRoute = (props) => {
                     }}
                     placeholder={'Message'}
                     style={{ flex: 1 }} />
+                <MatIcon
+                    onPress={() => {
+                        Axios.get(flaskUrl + "/translate/" + text.replace(" ", "%20") + "/2").then(res => {
+                            getData(user).then(username => {
+                                var temp = [];
+                                temp = [
+                                    ...ChatsStore.messageData,
+                                    {
+                                        text: res.data,
+                                        username: username,
+                                        time: new Date().getTime()
+                                    }
+                                ]
+                                props.route.socket.emit("addMessage", {
+                                    roomName: ChatsStore.videoData.roomName,
+                                    message: temp
+                                })
+                                setText("")
+                            })
+                        })
+
+                    }}
+                    name="google-translate" size={20} />
+
                 <AntIcon
                     onPress={() => {
                         getData(user).then(username => {
@@ -193,37 +224,74 @@ const ViewerRoute = (props) => {
         ChatsStore.users = res
     })
     useEffect(() => {
-        console.log("eknejdn")
         console.log(ChatsStore.users)
     })
 
-
-
-
     return (
         <ScrollView>
+            <TouchableOpacity
+                onPress={() => {
+                    Axios.post(baseUrl + "/api/room/refreshUser",
+                        {
+                            roomName: ChatsStore.videoData.roomName,
+                        }
+                    )
+                }}
+            >
+                <View style={{ flex: 1, flexDirection: "row", margin: 10, alignItems: 'center', backgroundColor: "white", borderRadius: 5, padding: 10, marginBottom: 5 }}>
+                    <Text style={{ flex: 6 }}>Refresh</Text>
+                </View>
+            </TouchableOpacity>
             <Observer>
                 {() => (
                     <FlatList
                         data={ChatsStore.users}
                         renderItem={({ item }) => (
-                            <View style={{ flex: 1, flexDirection: "row", margin: 10, alignItems: 'center', backgroundColor: "white", borderRadius: 5, padding: 10, marginBottom: 5 }}>
-                                <Text style={{ flex: 6 }}>{item.name}</Text>
-                                {/* {item.role == "User" ? ChatsStore.role != "Host" ? null : <TouchableOpacity
-                                    onPress={() => {
-                                        console.log(ChatsStore.role)
-                                    }}
-                                >
-                                    <Text>{ChatsStore.role}</Text>
-                                </TouchableOpacity> : <Text>s</Text>} */}
-                                <Text>{item.role}</Text>
-                            </View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    if (ChatsStore.role == "SuperAdmin" || ChatsStore.role == "Host") {
+                                        if (item.role != "User") return
+                                        var temp = []
+                                        ChatsStore.users.forEach(data => {
+                                            if (data.name == item.name) {
+                                                temp = [
+                                                    ...temp,
+                                                    {
+                                                        name: data.name,
+                                                        role: "Host"
+                                                    }
+                                                ]
+                                            } else {
+                                                temp = [
+                                                    ...temp,
+                                                    {
+                                                        name: data.name,
+                                                        role: data.role
+                                                    }
+                                                ]
+                                            }
+                                        })
+                                        Axios.post(baseUrl + "/api/room/addUser",
+                                            {
+                                                roomName: ChatsStore.videoData.roomName,
+                                                users: temp
+                                            }
+                                        )
+                                    }
+                                }}
+                            >
+                                <View style={{ flex: 1, flexDirection: "row", margin: 10, alignItems: 'center', backgroundColor: "white", borderRadius: 5, padding: 10, marginBottom: 5 }}>
+                                    <Text style={{ flex: 6 }}>{item.name}</Text>
+                                    <Text>{item.role}</Text>
+                                </View>
+                            </TouchableOpacity>
+
                         )}
                         keyExtractor={(item) => (item)}
                     />
                 )}
             </Observer>
-        </ScrollView>
+        </ScrollView >
     )
 }
 
@@ -390,6 +458,24 @@ export default Stream = (props) => {
                 console.log(res)
                 ChatsStore.messageData = res
             })
+
+            this.socket.on("updateUser", res => {
+
+                ChatsStore.users = res.users
+                getData(user).then(username => {
+                    var roleTemp = null;
+                    ChatsStore.users.forEach((res, index) => {
+                        if (res["name"] == username) {
+                            roleTemp = ChatsStore.users[index]["role"];
+                            ChatsStore.role = roleTemp
+                            setRole(roleTemp);
+                            setLoaded(true)
+                        }
+                    })
+                })
+                console.log(res)
+            })
+
 
         })
     }, [])

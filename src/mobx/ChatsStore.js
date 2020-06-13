@@ -39,6 +39,9 @@ class NotificationStore {
     @observable emojiId = 1;
 
     @observable messageData = [];
+
+    @observable password = "";
+    @observable listItem = null;
 }
 
 

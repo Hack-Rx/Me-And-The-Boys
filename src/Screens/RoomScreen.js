@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator, Image, TouchableOpacity, Linking, Platform } from 'react-native';
+import { View, Text, ActivityIndicator, FlatList, TextInput, Image, TouchableOpacity, Linking, Platform, ToastAndroid } from 'react-native';
 import Axios from 'axios';
 import { baseUrl, user, flaskUrl } from '../Store/Keys';
-import { FlatList } from 'react-native-gesture-handler';
 import { fontCustomSize } from '../function';
 import { storeData, getData } from '../Store/Storage';
 import { captureScreen } from "react-native-view-shot";
-
+import { Dialog } from 'react-native-simple-dialogs';
+import ChatsStore from '../mobx/ChatsStore';
 
 export default RoomScreen = (props) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [showDialog, setDialog] = useState(false);
+
     useEffect(() => {
         setLoading(true)
         Axios.post(baseUrl + "/api/room/getRoom").then(res => {
@@ -22,9 +24,99 @@ export default RoomScreen = (props) => {
 
     useEffect(() => {
         Linking.getInitialURL().then(url => {
-            console.log(url)
+            if (url != null) {
+                Axios.post(baseUrl + "/api/room/findRoom", {
+                    roomName: url.split("/")[url.split("/").length - 1]
+                }).then(res => {
+                    ChatsStore.listItem = res.data[0];
+                    ChatsStore.password = res.data[0].password
+                    if (ChatsStore.password == "") {
+                        getData(user).then(username => {
+                            var tempUser = ChatsStore.listItem.users;
+                            console.log(tempUser)
+                            var userArray = []
+                            tempUser.forEach(user => {
+                                userArray = [
+                                    ...userArray,
+                                    user["name"]
+                                ]
+                            })
+                            if (userArray.includes(username)) {
+                                props.navigation.navigate("Stream", { data: ChatsStore.listItem })
+                            } else {
+                                tempUser = [
+                                    ...tempUser,
+                                    { name: username, role: "User" }
+                                ]
+                                Axios.post(baseUrl + "/api/room/addUser", {
+                                    roomName: ChatsStore.listItem.roomName,
+                                    users: tempUser
+                                }).then(() => {
+                                    props.navigation.navigate("Stream", { data: ChatsStore.listItem })
+                                })
+                            }
+                        })
+                    } else {
+                        setDialog(true)
+                    }
+                })
+            }
         });
     })
+
+    ComponentMain = () => {
+        const [password, setPassword] = useState('');
+        return (
+            <View>
+                <TextInput
+                    secureTextEntry={true}
+                    placeholder={"******"}
+                    style={{ borderBottomColor: "#454545", borderBottomWidth: 1 }}
+                    value={password}
+                    onChangeText={res => {
+                        setPassword(res)
+                    }}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        if (ChatsStore.password == password) {
+                            getData(user).then(username => {
+                                var tempUser = ChatsStore.listItem.users;
+                                console.log(tempUser)
+                                var userArray = []
+                                tempUser.forEach(user => {
+                                    userArray = [
+                                        ...userArray,
+                                        user["name"]
+                                    ]
+                                })
+                                if (userArray.includes(username)) {
+                                    setDialog(false)
+                                    props.navigation.navigate("Stream", { data: ChatsStore.listItem })
+                                } else {
+                                    tempUser = [
+                                        ...tempUser,
+                                        { name: username, role: "User" }
+                                    ]
+                                    Axios.post(baseUrl + "/api/room/addUser", {
+                                        roomName: ChatsStore.listItem.roomName,
+                                        users: tempUser
+                                    }).then(() => {
+                                        setDialog(false)
+                                        props.navigation.navigate("Stream", { data: ChatsStore.listItem })
+                                    })
+                                }
+                            })
+                        } else {
+                            ToastAndroid.show("Wrong Password", ToastAndroid.LONG);
+                        }
+                    }}
+                >
+                    <Text>Join</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -34,36 +126,47 @@ export default RoomScreen = (props) => {
                 </View> : <View
                     style={{ flex: 1 }}
                 >
+                        <Dialog
+                            visible={showDialog}
+                            title="Password"
+                        >
+                            <ComponentMain />
+                        </Dialog>
                         <FlatList
                             data={data}
                             renderItem={({ item }) => (
                                 <TouchableOpacity
                                     onPress={() => {
-                                        getData(user).then(username => {
-                                            var tempUser = item.users;
-                                            console.log(tempUser)
-                                            var userArray = []
-                                            tempUser.forEach(user => {
-                                                userArray = [
-                                                    ...userArray,
-                                                    user["name"]
-                                                ]
-                                            })
-                                            if (userArray.includes(username)) {
-                                                props.navigation.navigate("Stream", { data: item })
-                                            } else {
-                                                tempUser = [
-                                                    ...tempUser,
-                                                    { name: username, role: "User" }
-                                                ]
-                                                Axios.post(baseUrl + "/api/room/addUser", {
-                                                    roomName: item.roomName,
-                                                    users: tempUser
-                                                }).then(() => {
-                                                    props.navigation.navigate("Stream", { data: item })
+                                        if (item.password == "") {
+                                            getData(user).then(username => {
+                                                var tempUser = item.users;
+                                                var userArray = []
+                                                tempUser.forEach(user => {
+                                                    userArray = [
+                                                        ...userArray,
+                                                        user["name"]
+                                                    ]
                                                 })
-                                            }
-                                        })
+                                                if (userArray.includes(username)) {
+                                                    props.navigation.navigate("Stream", { data: item })
+                                                } else {
+                                                    tempUser = [
+                                                        ...tempUser,
+                                                        { name: username, role: "User" }
+                                                    ]
+                                                    Axios.post(baseUrl + "/api/room/addUser", {
+                                                        roomName: item.roomName,
+                                                        users: tempUser
+                                                    }).then(() => {
+                                                        props.navigation.navigate("Stream", { data: item })
+                                                    })
+                                                }
+                                            })
+                                        } else {
+                                            ChatsStore.password = item.password
+                                            ChatsStore.listItem = item;
+                                            setDialog(true)
+                                        }
                                     }}
                                     style={{ flexDirection: "row", margin: 10, padding: 10, borderRadius: 15, borderColor: "#d4d4d4", borderWidth: 1 }}>
                                     <View style={{ marginLeft: 10, justifyContent: "center", flex: 8 }}>
@@ -78,17 +181,7 @@ export default RoomScreen = (props) => {
                     </View>
             }
 
-            <View
-                style={{ backgroundColor: '#252525', justifyContent: "center", alignItems: 'center', height: fontCustomSize(50), width: fontCustomSize(50), position: "absolute", bottom: fontCustomSize(30), borderRadius: fontCustomSize(50), right: fontCustomSize(30) }}
-            >
-                <TouchableOpacity
-                    onPress={() => {
-                        props.navigation.navigate("YoutubeLink")
-                    }}
-                    style={{ flex: 1, height: fontCustomSize(50), width: fontCustomSize(50), justifyContent: "center", alignItems: 'center' }}>
-                    <Text style={{ color: "white", fontSize: 40 }}>+</Text>
-                </TouchableOpacity>
-            </View>
+
         </View>
     )
 }

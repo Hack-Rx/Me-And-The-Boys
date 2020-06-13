@@ -90,7 +90,6 @@ export default YoutubeAddScreen = ({ navigation }) => {
                                 Axios.post(baseUrl + "/api/room/createRoom", getData).then(res => {
                                     setLoading(false)
                                 }).then(() => {
-                                    navigation.pop();
                                     navigation.navigate("Stream", { data: getData })
                                 })
                             })
