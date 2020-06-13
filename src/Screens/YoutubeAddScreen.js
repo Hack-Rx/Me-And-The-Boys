@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Image } from 'react-native';
 import Axios from 'axios';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { storeData, getData } from '../Store/Storage';
@@ -14,6 +14,12 @@ export default YoutubeAddScreen = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
+
+            <View style={{ flex: 1, flexDirection: "column" }}>
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                    <Image source={require("../../assests/image/heaty.png")} style={{ height: 100, width: 100, borderRadius: 10 }} />
+                </View>
+            </View>
 
             <TextInput
                 onChangeText={res => {
