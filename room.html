@@ -7,6 +7,7 @@
 </head>
 <body>
 	<div id="myid"></div>
+	<div id="role"></div>
 	<div class="plyr__video-embed" id="player">
 	  <iframe
 	    src="https://www.youtube.com/embed/bTqVqk7FSmY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
@@ -38,6 +39,7 @@
 		var isMaster = false;
 		if (id==param) {
 			isMaster = true;
+			$('#role').append('<p>You are admin</p>');
 		}
 
 
@@ -77,7 +79,6 @@
 		video.on('value', function(snapshot) {
 			let {currentTime,videoId,isPlaying} = snapshot.val();
 			let vsrc = player.source;
-			console.log(vsrc);
 			if (videoId == 'none' || vsrc.includes(videoId)	) {
 				if (isPlaying  && player.playing) {
 					if (player.currentTime>currentTime+4 || player.currentTime<currentTime-4) {
