@@ -12,23 +12,35 @@ We developed a mobile app named “VideoRooms”, which will be having real-time
 8. Every user will have their own profile and login details.
 
 All Rooms:
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038367.png" width="250" height="500" />
 <br/>
+<br/>
 Room Creation:
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038430.png" width="250" height="500" />
 <br/>
+<br/>
 Room Descriptiom
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038533.png" width="250" height="500" />
 <br/>
+<br/>
 Room Share
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038558.png" width="250" height="500" />
 <br/>
 Open Link
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038614.png" width="250" height="500" />
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038630.png" width="250" height="500" />
 <br/>
+<br/>
 Protected Rooms:
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1592038526.png" width="250" height="500" />
 <br/>
+<br/>
 Chat
+<br/>
 <img src="https://github.com/Hack-Rx/Me-And-The-Boys/blob/master/screenshot/Screenshot_1591960564.png" width="250" height="500" />
